@@ -1,6 +1,7 @@
 from socket import *
 import os
 import struct
+import time
 
 class communicator():
     class SocketInfo():
@@ -11,7 +12,11 @@ class communicator():
     
     def __init__(self):
         self.csock = socket(AF_INET, SOCK_STREAM)
-        self.csock.connect(self.SocketInfo.ADDR)
+
+        while self.csock.connect_ex(self.SocketInfo.ADDR):
+            print(f"tcp connect error")
+            time.sleep(1)
+        
         print("conenct is success")
 
     def __del__(self):
